@@ -1,0 +1,8 @@
+.postComments ul,
+.postComments ol {
+  padding-left: unset !important;
+}
+
+.postComments ul {
+  list-style-type: none !important;
+}
