@@ -111,7 +111,7 @@ const PostCommentsItem = ({ comment, post, onReplyClick }) => {
           </div>
         </section>
       ) : (
-        <section className="bg-gray-200 p-2 relative">
+        <section className="bg-gray-200 py-2 pl-2 pr-4 relative">
           {text.length >= 205 ? (
             <div className="relative">
               {getShortenedText(text)}

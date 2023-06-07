@@ -18,22 +18,11 @@ import { modules, formats } from '@/utils/helpers'
 const PostListItem = ({ post }) => {
   const [posts, setPosts] = usePostsData()
   const [readMore, setReadMore] = useState(false)
-  const [isLongText, setIsLongText] = useState(false)
   const [areCommentsShowed, setAreCommentsShowed] = useState(false)
   const [editMode, setEditMode] = useState(false)
-  const articleRef = useRef(null)
   const textRef = useRef(null)
   const { id, text, isLiked } = post
   const [editedText, setEditedText] = useState(text)
-
-  // TODO: when a post is changed there is a bug with height and scroll of the post article
-  useEffect(() => {
-    if (articleRef.current) {
-      if (articleRef.current.clientHeight === 336) {
-        setIsLongText(true)
-      }
-    }
-  }, [])
 
   useEffect(() => {
     if (editMode) textRef.current.focus()
@@ -88,8 +77,8 @@ const PostListItem = ({ post }) => {
   return (
     <li className={styles.postItem}>
       {editMode ? (
-        <article className="bg-gray-200 text-black p-5 relative">
-          <div className="w-11/12">
+        <article className="bg-gray-200 text-black pt-5 px-5 flex justify-between">
+          <div className="w-11/12 pb-5">
             <ReactQuill
               ref={textRef}
               theme="snow"
@@ -99,32 +88,19 @@ const PostListItem = ({ post }) => {
               formats={formats}
             />
           </div>
-          <div className="absolute top-1 right-1 flex flex-col gap-0">
+          <aside className="flex flex-col gap-0">
             <a onClick={toggleEditMode} className="cursor-pointer">
               <ClearIcon />
             </a>
             <a onClick={handleEditPost} className="cursor-pointer">
               <SendOutlinedIcon />
             </a>
-          </div>
+          </aside>
         </article>
       ) : (
-        <article ref={articleRef} className="bg-gray-200 text-black p-5 relative">
-          {isLongText && (
-            <div>
-              {!readMore ? (
-                <a onClick={handleShowMoreClick} className="absolute bottom-1 right-5 px-1 bg-gray-200 cursor-pointer">
-                  Show more...
-                </a>
-              ) : (
-                <a onClick={handleShowMoreClick} className="absolute bottom-1 right-3 px-1 bg-gray-200 cursor-pointer">
-                  Show less
-                </a>
-              )}
-            </div>
-          )}
-          {parse(text)}
-          <a onClick={toggleEditMode} className="absolute top-1 right-1 cursor-pointer">
+        <article className="bg-gray-200 text-black pt-5 px-5 flex justify-between">
+          <div className="w-full pb-5">{parse(text)}</div>
+          <a onClick={toggleEditMode} className="cursor-pointer">
             <EditOutlinedIcon />
           </a>
         </article>

@@ -52,10 +52,20 @@ const AddPost = () => {
     setText('')
   }
 
-  // TODO: add post on enter click
+  const handleKeyDown = e => {
+    if (text !== '<p><br></p>' && text.length > 0) {
+      if (e.key === 'Enter') {
+        handleAddPost(e)
+      }
+    }
+  }
 
   return (
-    <form onSubmit={e => handleAddPost(e)} className={'flex flex-col ' + styles.addPost}>
+    <form
+      onSubmit={e => handleAddPost(e)}
+      onKeyDown={e => handleKeyDown(e)}
+      className={'flex flex-col ' + styles.addPost}
+    >
       <Label>What's on your mind?</Label>
       <ReactQuill ref={textRef} theme="snow" value={text} onChange={setText} modules={modules} formats={formats} />
 

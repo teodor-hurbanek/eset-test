@@ -44,11 +44,16 @@ const AddPostComment = forwardRef(({ post, placeholder, commentId, setPlaceholde
     setCommentId(undefined)
   }
 
+  const handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      if (text.trim().length > 0) handleAddComment(e)
+    }
+  }
+
   // TODO: unfocus from reply form and focus to adding a new comment
-  // TODO: add comment on enter click
 
   return (
-    <form onSubmit={e => handleAddComment(e)} className="flex">
+    <form onSubmit={e => handleAddComment(e)} onKeyDown={e => handleKeyDown(e)} className="flex">
       <TextArea ref={ref} placeholder={placeholder} value={text} onChange={e => setText(e.target.value)} />
       <Button type={'submit'} style={{ width: 'unset' }} disabled={text.length === 0}>
         Publish
