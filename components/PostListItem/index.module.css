@@ -1,6 +1,7 @@
 .postItem article {
   max-height: 21rem;
   overflow-y: hidden;
+  /* TODO: change to scroll due to error in PostListItem */
 }
 
 .postItem a {
