@@ -8,46 +8,47 @@ const AddPostComment = forwardRef(({ post, placeholder, commentId, setPlaceholde
   const [text, setText] = useState('')
 
   const handleAddComment = e => {
-    e.preventDefault()
-    let newPosts = [...posts]
-    if (!commentId) {
-      const newId = post.comments.length > 0 ? Number([...post.comments].pop().id) + 1 : 1
-      newPosts = posts.map(item => {
-        if (item.id === post.id) {
-          return {
-            ...item,
-            comments: [...post.comments, { id: newId, text: text.trim(), isLiked: false, comments: [] }],
+    e.preventDefault(e)
+
+    if (text.trim().length > 0) {
+      let newPosts = [...posts]
+      if (!commentId) {
+        const newId = post.comments.length > 0 ? Number([...post.comments].pop().id) + 1 : 1
+        newPosts = posts.map(item => {
+          if (item.id === post.id) {
+            return {
+              ...item,
+              comments: [...post.comments, { id: newId, text: text.trim(), isLiked: false, comments: [] }],
+            }
+          } else {
+            return item
           }
-        } else {
-          return item
-        }
-      })
-    } else {
-      const newReplys = post.comments.map(item => {
-        if (item.id === commentId) {
-          return { ...item, comments: [...item.comments, text.trim()] }
-        } else {
-          return item
-        }
-      })
-      newPosts = posts.map(item => {
-        if (item.id === post.id) {
-          return { ...item, comments: newReplys }
-        } else {
-          return item
-        }
-      })
+        })
+      } else {
+        const newReplys = post.comments.map(item => {
+          if (item.id === commentId) {
+            return { ...item, comments: [...item.comments, text.trim()] }
+          } else {
+            return item
+          }
+        })
+        newPosts = posts.map(item => {
+          if (item.id === post.id) {
+            return { ...item, comments: newReplys }
+          } else {
+            return item
+          }
+        })
+      }
+      setPosts(newPosts)
+      setText('')
+      setPlaceholder(undefined)
+      setCommentId(undefined)
     }
-    setPosts(newPosts)
-    setText('')
-    setPlaceholder(undefined)
-    setCommentId(undefined)
   }
 
   const handleKeyDown = e => {
-    if (e.key === 'Enter') {
-      if (text.trim().length > 0) handleAddComment(e)
-    }
+    if (e.key === 'Enter') handleAddComment(e)
   }
 
   // TODO: unfocus from reply form and focus to adding a new comment

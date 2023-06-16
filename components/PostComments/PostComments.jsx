@@ -2,16 +2,27 @@ import React, { useEffect, useRef, useState } from 'react'
 import AddPostComment from '../AddPostComment/AddPostComment'
 import PostCommentsItem from '../PostCommentsItem/PostCommentsItem'
 import styles from '@/components/PostComments/index.module.css'
+import { useOutsideAlerter } from '@/hooks/useOutsideAlerter'
 
 const PostComments = ({ post }) => {
   const [textPlaceholder, setTextPlaceholder] = useState(undefined)
   const [commentId, setCommentId] = useState(undefined)
   const textRef = useRef(null)
+  // const clickOut = useOutsideAlerter(textRef)
   const { comments } = post
+
+  // console.log(clickOut)
 
   useEffect(() => {
     textRef.current.focus()
   }, [])
+
+  // useEffect(() => {
+  //   if (clickOut) {
+  //     setTextPlaceholder(undefined)
+  //     setCommentId(undefined)
+  //   }
+  // }, [clickOut])
 
   const handleReplyClick = (id, text) => {
     textRef.current.focus()

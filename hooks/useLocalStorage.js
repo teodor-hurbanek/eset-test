@@ -10,3 +10,5 @@ export const useLocalStorage = (storageKey, fallbackState) => {
 
   return [value, setValue]
 }
+
+// TODO: try how settingValue works

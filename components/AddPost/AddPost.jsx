@@ -52,6 +52,8 @@ const AddPost = () => {
     setText('')
   }
 
+  // TODO: fix add post on enter -> if there is no text and enter is pressed empty post is added
+
   const handleKeyDown = e => {
     if (text !== '<p><br></p>' && text.length > 0) {
       if (e.key === 'Enter') {

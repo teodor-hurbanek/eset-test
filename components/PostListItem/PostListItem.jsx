@@ -15,10 +15,8 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { modules, formats } from '@/utils/helpers'
 
-const PostListItem = ({ post }) => {
+const PostListItem = ({ post, showId, showComments, onShow }) => {
   const [posts, setPosts] = usePostsData()
-  const [readMore, setReadMore] = useState(false)
-  const [areCommentsShowed, setAreCommentsShowed] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const textRef = useRef(null)
   const { id, text, isLiked } = post
@@ -28,18 +26,8 @@ const PostListItem = ({ post }) => {
     if (editMode) textRef.current.focus()
   }, [editMode])
 
-  const handleShowMoreClick = () => {
-    if (readMore) {
-      articleRef.current.style.maxHeight = '21rem'
-      setReadMore(false)
-    } else {
-      articleRef.current.style.maxHeight = 'unset'
-      setReadMore(true)
-    }
-  }
-
-  const toggleShowComments = () => {
-    setAreCommentsShowed(!areCommentsShowed)
+  const handleShow = () => {
+    onShow(showId)
   }
 
   const handleLikeClick = () => {
@@ -110,14 +98,14 @@ const PostListItem = ({ post }) => {
           {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           <span> Like</span>
         </Button>
-        <Button onClick={toggleShowComments}>
+        <Button onClick={handleShow}>
           <ChatBubbleOutlineIcon /> Commnet
         </Button>
         <Button onClick={handleDeleteClick}>
           <DeleteOutlineIcon /> Delete
         </Button>
       </div>
-      {areCommentsShowed && <PostComments post={post} />}
+      {showComments && <PostComments post={post} />}
     </li>
   )
 }
